@@ -1,19 +1,42 @@
 import React, { useState } from 'react';
-import { getInstancesByYearAndSemester, deleteInstance } from '../api';
+import { getCoursesByYearAndSemester, deleteInstance } from '../api';
+import './Dialog.css'; // Import the CSS file for the dialog
 
-const InstanceList = () => {
+const CourseListByYearAndSemester = () => {
   const [year, setYear] = useState('');
   const [semester, setSemester] = useState('');
-  const [instances, setInstances] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(null); // State for the selected course
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // State to handle dialog visibility
 
-  const fetchInstances = async () => {
-    const instances = await getInstancesByYearAndSemester(year, semester);
-    setInstances(instances);
+  // Fetch courses delivered in a particular year and semester
+  const fetchCourses = async () => {
+    try {
+      const courses = await getCoursesByYearAndSemester(year, semester);
+      setCourses(courses);
+    } catch (error) {
+      console.error("Failed to fetch courses:", error);
+    }
   };
 
-  const handleDelete = async (instanceId, year, semester) => {
-    await deleteInstance(instanceId, year, semester);
-    fetchInstances();
+  // Handle the deletion of a course delivery
+  const handleDelete = async (courseId) => {
+    try {
+      await deleteInstance(year, semester, courseId); // Assuming deleteInstance will delete based on courseId
+      fetchCourses(); // Refresh the courses after deletion
+    } catch (error) {
+      console.error("Failed to delete course:", error);
+    }
+  };
+
+  const handleView = (course) => {
+    setSelectedCourse(course); // Set the selected course
+    setIsDialogOpen(true); // Open the dialog
+  };
+
+  const closeDialog = () => {
+    setIsDialogOpen(false); // Close the dialog
+    setSelectedCourse(null); // Reset the selected course
   };
 
   return (
@@ -30,33 +53,47 @@ const InstanceList = () => {
         value={semester} 
         onChange={(e) => setSemester(e.target.value)} 
       />
-      <button onClick={fetchInstances}>List instances</button>
+      <button onClick={fetchCourses}>List Courses</button>
       
       <table>
         <thead>
           <tr>
             <th>Course Title</th>
-            <th>Year-Sem</th>
             <th>Code</th>
+            <th>Year-Sem.</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {instances.map((instance) => (
-            <tr key={instance.id}>
-              <td>{instance.course.title}</td>
-              <td>{instance.year}-{instance.semester}</td>
-              <td>{instance.course.code}</td>
+          {courses.map((course) => (
+            <tr key={course.courseId}>
+              <td>{course.name}</td>
+              <td>{course.code}</td>
+              <td>{year}-{semester}</td>
               <td>
-                <button onClick={() => handleDelete(instance.id, instance.year, instance.semester)}>Delete</button>
-                <button>View</button>
+                <button onClick={() => handleDelete(course.courseId)}>Delete</button>
+                <button onClick={() => handleView(course)}>View</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {isDialogOpen && selectedCourse && (
+        <div className="dialog-overlay" onClick={closeDialog}>
+          <div className="dialog" onClick={(e) => e.stopPropagation()}>
+            <button className="dialog-close-button" onClick={closeDialog}>&times;</button>
+            <div className="dialog-content">
+              <h2>{selectedCourse.name}</h2>
+              <p><strong>Code:</strong> {selectedCourse.code}</p>
+              <p><strong>Description:</strong> {selectedCourse.description}</p>
+              <button onClick={closeDialog}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default InstanceList;
+export default CourseListByYearAndSemester;

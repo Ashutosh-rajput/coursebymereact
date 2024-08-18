@@ -34,7 +34,7 @@ const AddInstanceForm = ({ refreshInstances }) => {
       <select name="courseId" value={instance.courseId} onChange={handleChange}>
         <option value="">Select course</option>
         {courses.map((course) => (
-          <option key={course.id} value={course.id}>{course.title}</option>
+          <option key={course.courseId} value={course.courseId}>{course.name}</option>
         ))}
       </select>
       <input 

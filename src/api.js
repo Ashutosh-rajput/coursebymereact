@@ -19,11 +19,11 @@ export const addInstance = async (instance) => {
   await axios.post(`${API_URL}/instances`, instance);
 };
 
-export const getInstancesByYearAndSemester = async (year, semester) => {
+export const getCoursesByYearAndSemester = async (year, semester) => {
   const response = await axios.get(`${API_URL}/instances/${year}/${semester}`);
-  return response.data;
+  return response.data; // Expecting a list of courses delivered in the given year and semester
 };
 
-export const deleteInstance = async (instanceId, year, semester) => {
+export const deleteInstance = async (year, semester,instanceId) => {
   await axios.delete(`${API_URL}/instances/${year}/${semester}/${instanceId}`);
 };
