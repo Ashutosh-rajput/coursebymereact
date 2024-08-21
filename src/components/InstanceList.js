@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { getCoursesByYearAndSemester, deleteInstance } from '../api';
-import './Dialog.css'; // Import the CSS file for the dialog
+import './Dialog.css'; 
 
 const CourseListByYearAndSemester = () => {
   const [year, setYear] = useState('');
   const [semester, setSemester] = useState('');
   const [courses, setCourses] = useState([]);
-  const [selectedCourse, setSelectedCourse] = useState(null); // State for the selected course
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // State to handle dialog visibility
+  const [selectedCourse, setSelectedCourse] = useState(null); 
+  const [isDialogOpen, setIsDialogOpen] = useState(false); 
 
   // Fetch courses delivered in a particular year and semester
   const fetchCourses = async () => {
@@ -22,21 +22,21 @@ const CourseListByYearAndSemester = () => {
   // Handle the deletion of a course delivery
   const handleDelete = async (courseId) => {
     try {
-      await deleteInstance(year, semester, courseId); // Assuming deleteInstance will delete based on courseId
-      fetchCourses(); // Refresh the courses after deletion
+      await deleteInstance(year, semester, courseId); 
+      fetchCourses(); 
     } catch (error) {
       console.error("Failed to delete course:", error);
     }
   };
 
   const handleView = (course) => {
-    setSelectedCourse(course); // Set the selected course
-    setIsDialogOpen(true); // Open the dialog
+    setSelectedCourse(course); 
+    setIsDialogOpen(true); 
   };
 
   const closeDialog = () => {
-    setIsDialogOpen(false); // Close the dialog
-    setSelectedCourse(null); // Reset the selected course
+    setIsDialogOpen(false); 
+    setSelectedCourse(null); 
   };
 
   return (

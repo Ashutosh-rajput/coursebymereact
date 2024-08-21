@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getCourses, addInstance } from '../api';
 
-const AddInstanceForm = ({ refreshInstances }) => {
+const AddInstanceForm = () => {
   const [instance, setInstance] = useState({
     courseId: '',
     year: '',
@@ -26,7 +26,6 @@ const AddInstanceForm = ({ refreshInstances }) => {
     e.preventDefault();
     await addInstance(instance);
     setInstance({ courseId: '', year: '', semester: '' });
-    refreshInstances();
   };
 
   return (

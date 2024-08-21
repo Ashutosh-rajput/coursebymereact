@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { addCourse } from '../api';
 
-const AddCourseForm = ({ refreshCourses }) => {
+const AddCourseForm = () => {
   const [course, setCourse] = useState({
     name: '',
     code: '',
@@ -16,7 +16,6 @@ const AddCourseForm = ({ refreshCourses }) => {
     e.preventDefault();
     await addCourse(course);
     setCourse({ name: '', code: '', description: '' });
-    refreshCourses();
   };
 
   return (

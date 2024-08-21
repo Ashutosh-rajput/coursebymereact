@@ -1,4 +1,3 @@
-/* General Styles */
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f9;
@@ -8,7 +7,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  /* height: 100vh; */
+  flex-direction: column;
 }
 
 .container {
@@ -16,22 +16,30 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
+  max-width: 1200px;
   width: 100%;
+  /* margin-top: 100px; */
 }
 
-h1, h2 {
-  text-align: center;
-  color: #2c3e50;
+.form-container {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 20px;
+  margin-top: 100px;
 }
 
-/* Form Styles */
+.table-container {
+  display: flex;
+  justify-content: space-between;
+  gap:20px;
+}
+
 form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
+  width: 48%;
 }
 
 form input,
@@ -58,7 +66,7 @@ input::placeholder {
   color: #bbb;
 }
 
-/* Table Styles */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -80,7 +88,10 @@ table tbody tr:hover {
   background-color: #f9f9f9;
 }
 
-/* Button Styles */
+
+
+
+
 button {
   padding: 8px 16px;
   border-radius: 4px;
@@ -105,27 +116,4 @@ button.view-btn:hover {
 
 button.delete-btn:hover {
   background-color: #c0392b;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .container {
-    padding: 15px;
-  }
-
-  form input,
-  form select,
-  form button {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  table th,
-  table td {
-    padding: 10px;
-  }
-
-  button {
-    padding: 6px 12px;
-  }
 }
